@@ -1,7 +1,6 @@
 from data_requester.phones_requests import get_next_page, get_list_of_phones_in_the_given_page, populate_phone_detail, \
     get_all_phone_details
 from pyquery import PyQuery
-
 from tests.test_constants import list_of_phones, phone_details, one_more_phone_details, list_of_phones_with_next_page
 
 
