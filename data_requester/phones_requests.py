@@ -2,6 +2,8 @@ import time
 import requests
 from pyquery import PyQuery
 
+from constants import gsm_arena_base_url
+
 
 def process_request(link):
     response = requests.get(link)
@@ -13,7 +15,7 @@ def process_request(link):
 
 def get_next_page(page_details):
     next_page_link = page_details.find("a[title='Next page']").attr("href")
-    next_page = f"http://www.gsmarena.com/{next_page_link}"
+    next_page = f"{gsm_arena_base_url}{next_page_link}"
     return None if next_page_link == "#1" or next_page_link is None else next_page
 
 
@@ -64,7 +66,7 @@ def get_all_phone_details(existing_phones, link, time_to_wait, page_no=None):
                     continue
 
                 time.sleep(time_to_wait)
-                details = process_request("https://www.gsmarena.com/" + phone_link)
+                details = process_request(gsm_arena_base_url + phone_link)
                 phone_details = PyQuery(details)
                 phone_detail = populate_phone_detail(phone_details)
                 phone_list.append(phone_detail)

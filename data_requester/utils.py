@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 
 
@@ -20,3 +22,8 @@ def create_data_frame_from_dict(phone_details):
         data.append(data_row)
 
     return pd.DataFrame(data=data, columns=cols)
+
+
+def get_file_name(file_path):
+    count = len(list(Path(file_path).glob('*.csv')))
+    return count + 1
