@@ -12,6 +12,6 @@ def load_processed_phone_links(file_name):
 
 
 def store_phone_names(processed_phone_links, file_name):
-    with open(file_name, "a") as phone_file:
+    with open(file_name, "a+") as phone_file:
         for phone in processed_phone_links:
             phone_file.write(phone + "\n")

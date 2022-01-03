@@ -29,8 +29,7 @@ def get_phone_brands():
 
 def get_next_page(page_details):
     next_page_link = page_details.find("a[title='Next page']").attr("href")
-    next_page = f"{gsm_arena_base_url}{next_page_link}"
-    return None if next_page_link == "#1" or next_page_link is None else next_page
+    return None if next_page_link == "#1" or next_page_link is None else next_page_link
 
 
 def get_list_of_phones_in_the_given_page(root_html_element):
@@ -71,7 +70,7 @@ def get_all_phone_details(existing_phones, link, time_to_wait, page_no=None):
             if page_no is not None and current_page > page_no:
                 break
 
-            phones_response = process_request(link)
+            phones_response = process_request(gsm_arena_base_url + link)
             root = PyQuery(phones_response)
             phone_links = get_list_of_phones_in_the_given_page(root)
 

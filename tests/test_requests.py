@@ -19,7 +19,7 @@ def test_get_next_page_returns_next_page_link():
     content = "<html><body><a class='pages-next' href='next-page' "\
               "title='Next page'></a></body></html>"
 
-    expected = "https://www.gsmarena.com/next-page"
+    expected = "next-page"
     actual = get_next_page(PyQuery(content))
     assert actual == expected
 
@@ -45,20 +45,20 @@ def test_get_phone_details_returns_expected_data():
 
 
 def test_get_all_phone_details_returns_expected_data(requests_mock):
-    requests_mock.get("http://given-page", text=list_of_phones)
+    requests_mock.get("https://www.gsmarena.com/given-page", text=list_of_phones)
     requests_mock.get("https://www.gsmarena.com/a.php", text=phone_details)
     requests_mock.get("https://www.gsmarena.com/b.php", text=one_more_phone_details)
 
     expected_phones = [{"key": "value", "name": "Mobile Name"}]
     expected_processed_phone_links = ["a.php"]
 
-    actual_processed_phone_links, actual_phones = get_all_phone_details(["b.php"], "http://given-page", 0)
+    actual_processed_phone_links, actual_phones = get_all_phone_details(["b.php"], "given-page", 0)
     assert actual_phones == expected_phones
     assert actual_processed_phone_links == expected_processed_phone_links
 
 
 def test_get_all_phone_details_for_next_pages(requests_mock):
-    requests_mock.get("http://given-page", text=list_of_phones_with_next_page)
+    requests_mock.get("https://www.gsmarena.com/given-page", text=list_of_phones_with_next_page)
     requests_mock.get("https://www.gsmarena.com/next-page.php", text=list_of_phones)
     requests_mock.get("https://www.gsmarena.com/a.php", text=phone_details)
     requests_mock.get("https://www.gsmarena.com/b.php", text=one_more_phone_details)
@@ -66,16 +66,16 @@ def test_get_all_phone_details_for_next_pages(requests_mock):
     expected_phones = [{"key": "value", "name": "Mobile Name"}]
     expected_processed_phone_links = ["a.php"]
 
-    actual_processed_phone_links, actual_phones = get_all_phone_details(["b.php"], "http://given-page", 0)
+    actual_processed_phone_links, actual_phones = get_all_phone_details(["b.php"], "given-page", 0)
     assert actual_phones == expected_phones
     assert actual_processed_phone_links == expected_processed_phone_links
 
 
 def test_get_all_phone_details_for_next_pages_with_page_no(requests_mock):
-    requests_mock.get("http://given-page", text=list_of_phones_with_next_page)
+    requests_mock.get("https://www.gsmarena.com/given-page", text=list_of_phones_with_next_page)
 
     expected = []
 
-    actual_processed_phone_links, actual_phones = get_all_phone_details(["b.php"], "http://given-page", 0, 1)
+    actual_processed_phone_links, actual_phones = get_all_phone_details(["b.php"], "given-page", 0, 1)
     assert len(actual_processed_phone_links) == 0
     assert actual_phones == expected
