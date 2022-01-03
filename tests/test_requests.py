@@ -1,14 +1,25 @@
 from data_requester.phones_requests import get_next_page, get_list_of_phones_in_the_given_page, populate_phone_detail, \
     get_all_phone_details
 from pyquery import PyQuery
-from tests.test_constants import list_of_phones, phone_details, one_more_phone_details, list_of_phones_with_next_page
+
+from data_requester.phones_requests import get_phone_brands
+from tests.test_constants import list_of_phones, phone_details, one_more_phone_details, list_of_phones_with_next_page, \
+    brands
+
+
+def test_get_phone_brands_returns_expected_phone_brands(requests_mock):
+    requests_mock.get("https://www.gsmarena.com/", text=brands)
+    expected = {"a": "a.php", "b": "b.php"}
+    actual = get_phone_brands()
+
+    assert actual == expected
 
 
 def test_get_next_page_returns_next_page_link():
     content = "<html><body><a class='pages-next' href='next-page' "\
               "title='Next page'></a></body></html>"
 
-    expected = "http://www.gsmarena.com/next-page"
+    expected = "https://www.gsmarena.com/next-page"
     actual = get_next_page(PyQuery(content))
     assert actual == expected
 
@@ -48,7 +59,7 @@ def test_get_all_phone_details_returns_expected_data(requests_mock):
 
 def test_get_all_phone_details_for_next_pages(requests_mock):
     requests_mock.get("http://given-page", text=list_of_phones_with_next_page)
-    requests_mock.get("http://www.gsmarena.com/next-page.php", text=list_of_phones)
+    requests_mock.get("https://www.gsmarena.com/next-page.php", text=list_of_phones)
     requests_mock.get("https://www.gsmarena.com/a.php", text=phone_details)
     requests_mock.get("https://www.gsmarena.com/b.php", text=one_more_phone_details)
 

@@ -1,3 +1,14 @@
+brands = "<html>" \
+         "<body>" \
+         "<div class='brandmenu-v2'>" \
+         "<ul>" \
+         "<li><a href='a.php'>A</a></li>" \
+         "<li><a href='b.php'>B</a></li>" \
+         "</ul>" \
+         "</div>" \
+         "</body>" \
+         "</html>"
+
 list_of_phones = "<html>" \
                  "<body>" \
                  "<div id='review-body'>" \

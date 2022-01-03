@@ -2,7 +2,7 @@ import time
 import requests
 from pyquery import PyQuery
 
-from constants import gsm_arena_base_url
+gsm_arena_base_url = "https://www.gsmarena.com/"
 
 
 def process_request(link):
@@ -11,6 +11,20 @@ def process_request(link):
         print(f"Request failed with {response.status_code} with reason {response.text}")
         raise Exception()
     return response.text
+
+
+def get_phone_brands():
+    phones = {}
+    home_page_response = process_request(gsm_arena_base_url)
+    root = PyQuery(home_page_response)
+    brands = root.find(".brandmenu-v2").find("ul").find("li")
+
+    for brand in brands.items():
+        brand_name = brand.find("a").text().lower()
+        brand_link = brand.find("a").attr("href")
+        phones[brand_name] = brand_link
+
+    return phones
 
 
 def get_next_page(page_details):

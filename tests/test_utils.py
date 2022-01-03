@@ -7,4 +7,4 @@ def test_create_data_frame_from_dict():
     details = [{'col1': 'data1', 'col2': 'data2'}, {'col1': 'data3', 'col3': 'data4'}]
     actual = create_data_frame_from_dict(details)
 
-    assert actual.equals(pd.DataFrame(expected))
+    assert actual.equals(pd.DataFrame(data=expected, columns=actual.columns))
